@@ -4,16 +4,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URL Summarizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        label {
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        select, textarea {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .loading {
+            display: none;
+            margin-top: 1rem;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #3498db;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin: auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            color: #333;
+        }
+        p {
+            font-size: 1rem;
+            background-color: #f9f9f9;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+    </style>
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+    </script>
 </head>
 <body>
-    <h1>URL Summarizer</h1>
-    <form method="post">
-        <label for="url">Enter URL:</label>
-        <textarea id="url" name="url" rows="2" cols="50"></textarea>
-        <br><br>
-        <input type="submit" value="Summarize">
-    </form>
-    <h2>Summary:</h2>
-    <p>{{ summary }}</p>
+    <div class="container">
+        <h1>URL Summarizer</h1>
+        <form method="post" onsubmit="showLoading()">
+            <label for="model">Select Model:</label>
+            <select id="model" name="model">
+                <option value="sshleifer/distilbart-cnn-12-6">sshleifer/distilbart-cnn-12-6</option>
+                <option value="facebook/bart-large-cnn">facebook/bart-large-cnn</option>
+                <option value="philschmid/bart-large-cnn-samsum">philschmid/bart-large-cnn-samsum</option>
+                <option value="google/pegasus-xsum">google/pegasus-xsum</option>
+            </select>
+            <label for="url">Enter URL:</label>
+            <textarea id="url" name="url" rows="2" cols="50"></textarea>
+            <br><br>
+            <input type="submit" value="Summarize">
+        </form>
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+        <h2>Summary:</h2>
+        <p>{{ summary }}</p>
+    </div>
 </body>
 </html>
